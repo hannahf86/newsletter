@@ -5,10 +5,10 @@ import Form from './Components/Form'
 function App() {
 
   const styles = {
-    background: 'bg-white pl-32 pr-8 ',
-    title: 'text-7xl font-bold text-[#36384E] mt-32 mb-12',
+    background: 'bg-white pl-28 pr-8 ',
+    title: 'text-7xl font-bold text-[#36384E] mt-44 mb-12',
     textBox: 'max-w-lg',
-    paragraph: 'text-[#36384E] text-xl mb-12',
+    paragraph: 'text-[#36384E] font-semibold text-xl mb-12',
     image: 'absolute right-0 top-0 pt-8 pb-8 pr-8',
   }
 
@@ -26,7 +26,7 @@ function App() {
         </div>
      </div>
 
-     <img width={565} src='./src/assets/images/illustration-sign-up-desktop.svg' className={styles.image}/>
+     <img width={680} src='./src/assets/images/illustration-sign-up-desktop.svg' className={styles.image}/>
      </div>
     </>
   )
