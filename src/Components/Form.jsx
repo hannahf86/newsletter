@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 
 const Form = () => {
@@ -12,24 +12,37 @@ const Form = () => {
 
   const [ email, setEmail ] = useState( " " )
   const [ isPending, setIsPending ] = useState( false )
+  const [ error, setError ] = useState(null)
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newsletterForm = { email }
-
     setIsPending(true)
 
     // console.log( newsletterForm )
   }
 
-  fetch ('http://localhost:8000/email', {
-    method: 'POST',
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(email)
-  }).then(() => {
-    console.log('Email submitted successfully :D');
-    setIsPending(false)
-  })
+  useEffect(() => { // need to run at every render
+      fetch ('http://localhost:8000/email', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(email)
+      })
+      .then(res => {
+        if(!res.ok) {
+          throw Error ('Could not connect to server');
+        }
+        return res.json()
+      })
+      .then((data) => {
+        setEmail(data);
+        setIsPending(false);
+        setError(null);
+      })
+      .catch((err) => {
+        setIsPending(false);
+        setError(err.message);
+      })
+  });
 
   return (
     <div>
