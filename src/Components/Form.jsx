@@ -4,8 +4,10 @@ import * as Yup from 'yup';
 
 const Form = () => {
 
-  // Formik Logics
+  // TODO: FINISH SUBMIT | ERROR HANDLING
 
+  
+  // Formik Logics
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -49,8 +51,6 @@ const Form = () => {
         />
         <button type='submit' className={styles.button}>Subscribe to monthly newsletter</button>
       </form>
-
-      
 
     </div>
   )
