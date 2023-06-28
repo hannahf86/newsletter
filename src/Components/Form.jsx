@@ -1,8 +1,28 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
-
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 const Form = () => {
+
+  // Formik Logics
+
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+    },
+
+    // Validate Form
+    validationScheme: Yup.object({
+      email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
+    }),
+
+    // Submit Form
+    onSubmit:(values) => {
+
+    }
+  })
 
   const styles = {
     text: 'text-[#36384E] font-semibold mb-4 text-sm',
@@ -10,60 +30,27 @@ const Form = () => {
     button: 'bg-gradient-to-r from-pink-500 to-[#FF6257] p-4 rounded-xl w-full text-white font-bold',
   }
 
-  const [ email, setEmail ] = useState( " " )
-  const [ isPending, setIsPending ] = useState( false )
-  const [ error, setError ] = useState(null)
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsPending(true)
-
-    // console.log( newsletterForm )
-  }
-
-  useEffect(() => { // need to run at every render
-      fetch ('http://localhost:8000/email', {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(email)
-      })
-      .then(res => {
-        if(!res.ok) {
-          throw Error ('Could not connect to server');
-        }
-        return res.json()
-      })
-      .then((data) => {
-        setEmail(data);
-        setIsPending(false);
-        setError(null);
-      })
-      .catch((err) => {
-        setIsPending(false);
-        setError(err.message);
-      })
-  });
 
   return (
     <div>
 
       <p className={styles.text}>Email address</p>
 
-      <form onSubmit={ handleSubmit }>
+      <form>
         <input 
           className={ styles.input }
           type="text" 
           placeholder='Enter your email here' 
           id='email' 
           required
-          value={ email }
-          onChange = {(e) => setEmail(e.target.value)}
+          value={ formik.values.email }
+          onChange = { formik.handleChange }
+          onSubmit = { formik.handleSubmit }
         />
-        { !isPending && <button className={styles.button}>Subscribe to monthly newsletter</button>}
-        { isPending && <button disabled className={styles.button}>Subscribing...</button>}
+        <button type='submit' className={styles.button}>Subscribe to monthly newsletter</button>
       </form>
 
-      <p></p>
+      
 
     </div>
   )
